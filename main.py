@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
-
+from scipy.stats import norm
 
 x = np.arange(-1, 1.01, 0.01).reshape(1,-1)
 
@@ -45,22 +45,18 @@ def phi_of_x(x):
     t = 0.5*x -1.5
     return t
 
-
-def calculate_likelihood(single_x):
-    prior_w = calculate_w_prior()
-    w_value = prior_w.rvs()
-    w_value.transpose()
-    likelihood_mean = w_value*phi_of_x(single_x)
-    likelihood_variance = 1 / np.sqrt(0.2)
-    likelihood = multivariate_normal(likelihood_mean, likelihood_variance)
+def calculate_likelihood(w, x, t):
+    mu = w[0]*x -w[1] # Väntevärdet för likelihood-funktionen
+    sigma = 0.2 # Variansen för likelihood-funktionen
+    likelihood = norm(mu, sigma)
     return likelihood
 
 def calculate_posterior(single_x):
+    prior_w = calculate_w_prior()
+    w_value = prior_w.rvs()
     
 
 
-    w_posterior = likelihood.pdf
-    return w_posterior
 
 
 
