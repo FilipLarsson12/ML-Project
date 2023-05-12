@@ -62,11 +62,16 @@ def calculate_posterior(single_x):
     w_prior = calculate_w_prior()
     mu_prior = w_prior.mean()
     sigma_prior = w_prior.cov()
-    phiOfX = [single_x, 1]
-    likelihood = calculate_likelihood(w_prior.rvs(2), )
-    posterior = w_prior * likelihood
-    #sigma_posterior = 0.2*
-    #mu_posterior = (1/0.2)*
+    sigma_squared = 0.2
+    real_t = phi_of_x(single_x)
+    #likelihood = calculate_likelihood(w_prior.rvs(2), single_x, real_t)
+    x_vector = [single_x, 1]
+    XTX = np.dot(x_vector.T, x_vector)
+    XTy = np.dot(x_vector.T, real_t)
+    sigma_posterior = np.linalg.inv(np.linalg.inv(sigma_prior) + XTX / sigma_squared)
+    mu_posterior = np.dot(sigma_posterior, (np.dot(np.linalg.inv(sigma_prior), mu_prior) + XTy / sigma_squared))
+    posterior_w = multivariate_normal(mu_posterior, sigma_posterior)
+    return posterior_w
     
     
 
