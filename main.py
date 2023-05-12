@@ -19,6 +19,7 @@ def calculate_w_prior():
     mean = np.zeros(w_dimension)
     covariance = np.eye(w_dimension) / alpha
     prior_w = multivariate_normal(mean, covariance)
+    print(prior_w)
     return prior_w
 
 def plot_w(w):
@@ -46,14 +47,27 @@ def phi_of_x(x):
     return t
 
 def calculate_likelihood(w, x, t):
-    mu = w[0]*x -w[1] # Väntevärdet för likelihood-funktionen
+    phiOfX = [x, 1]
+    mu = w[0]*phiOfX[0] + w[1]*phiOfX[1] # Väntevärdet för likelihood-funktionen
     sigma = 0.2 # Variansen för likelihood-funktionen
-    likelihood = norm(mu, sigma)
+    likelihood = multivariate_normal(mu, sigma).pdf(t)
     return likelihood
 
+
+# Formel 10 och lite 11 viktig för att räkna ut likelihood för flera punkter.
+
+# Definition för Phi finns på formel 14
+
 def calculate_posterior(single_x):
-    prior_w = calculate_w_prior()
-    w_value = prior_w.rvs()
+    w_prior = calculate_w_prior()
+    mu_prior = w_prior.mean()
+    sigma_prior = w_prior.cov()
+    phiOfX = [single_x, 1]
+    likelihood = calculate_likelihood(w_prior.rvs(2), )
+    posterior = w_prior * likelihood
+    #sigma_posterior = 0.2*
+    #mu_posterior = (1/0.2)*
+    
     
 
 
