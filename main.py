@@ -38,7 +38,7 @@ def calculate_likelihood(mu, t):
 def calculate_posterior(single_x, w_prior):
     X = np.array([single_x, 1])
     t = phi_of_x(single_x)
-    sigma_squared = 0.2
+    sigma_squared = 0.8
 
     Sigma_prior = w_prior.cov
     mu_prior = w_prior.mean
@@ -86,6 +86,7 @@ def add_points(point_amount, w_distribution):
             t = phi_of_x(random_x)
             w_posterior = calculate_posterior(random_x, w_prior)
             samples = w_posterior.rvs(size=5)
+            plot_w(w_posterior)
             plot_function_for_each_sample(samples, points_added)
         else:
             points_added += 1
@@ -93,6 +94,7 @@ def add_points(point_amount, w_distribution):
             t = phi_of_x(random_x)
             w_posterior = calculate_posterior(random_x, w_posterior)
             samples = w_posterior.rvs(size=5)
+            plot_w(w_posterior)
             plot_function_for_each_sample(samples, points_added)
 
 
@@ -109,9 +111,37 @@ def main():
     # plot_function_for_each_sample(samples, len(points_added))
 
     # Uppgift 4: Adding additional data points:
-    add_points(7, w_posterior1)
+    add_points(19, w_posterior1)
     #plot_function_for_each_sample(samples, len(points_added))
 
     print(points_added)
 
+    # Uppgift 5 
+    '''
+    Each time we add a data point for the function f(x) we get an evermore accurate estimation of the
+    weights w0 and w1 which values are 0.5 and -1.5. This is represented in the visual respresentation of
+    the weights, we can see that the distribution generally gets smaller and smaller and it is centered 
+    around the point: (0.5, -1.5). We can also see that after we have calculated the posterior distribution
+    of the weights for each new datapoint we generated we get functions f(x) which more and more resemble the
+    true function with the correct weights which is: f(x) = 0.5*x -1.5 + epsilon. This makes sense because 
+    we get better estimations of the weight distribution which in turn gives better estimations for the 
+    function f(x). So our interpretation of this effect is that the more datapoints we give to our program
+    the better the program gets at estimating the true weights and the true function f(x).
+    '''
+
+    # Uppgift 6
+    '''
+    Starting to test with sigma_squared = 0.1
+    Observing that when sigma_squared is 0.1 which is smaller than 0.2 we get more accurate estimations of 
+    the weights and functions quicker. This makes sense because there is less random variation in the 
+    calculation of w_posterior which in turn give a better and more accurate estimation. The effect 
+    on the posterior is therefore positive.
+    Testing with sigma squared = 0.4:
+    The effect on the posterior is the reverse of when sigma_squared was 0.1, it is not as precise as
+    before, the estimation of the posterior is not as confident. The effect on the posterior is negative.
+    Testing with sigma squared = 0.8:
+    Same effect as when sigma_squared was 0.4 bet even more pronounced. The distribution of the posterior
+    is even more spread out than before. Our model account okay for various levels of noise but there is a
+    clear and visible difference when the sigma_squared variable have different values.
+    '''
 main()
