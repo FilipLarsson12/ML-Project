@@ -2,7 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
 from scipy.stats import norm
+from mpl_toolkits.mplot3d import Axes3D
+
 import random
+# TASK 1
 
 # Uppgift 1
 def calculate_w_prior():
@@ -30,6 +33,9 @@ def phi_of_x(x):
     t = 0.5 * x - 1.5
     return t
 
+
+
+
 def calculate_likelihood(mu, t):
     sigma = 0.2  # Variansen för likelihood-funktionen
     likelihood = norm(mu, np.sqrt(sigma)).pdf(t)
@@ -38,7 +44,7 @@ def calculate_likelihood(mu, t):
 def calculate_posterior(single_x, w_prior):
     X = np.array([single_x, 1])
     t = phi_of_x(single_x)
-    sigma_squared = 0.8
+    sigma_squared = 0.2
 
     Sigma_prior = w_prior.cov
     mu_prior = w_prior.mean
@@ -98,9 +104,33 @@ def add_points(point_amount, w_distribution):
             plot_function_for_each_sample(samples, points_added)
 
 
+
+
+# TASK 2
+
+# Uppgift 1
+# x är en vektor med 2 element där varje element ingår i: (-1,1).
+
+def generate_input_space():
+    X1 = np.arange(-1, 1.05, 0.05)
+    X2 = np.arange(-1, 1.05, 0.05)
+    return X1, X2
+
+def calculate_t(x1, x2):
+    epsilon = multivariate_normal(0, 0.2)
+    w = [0, 1.5, -0,8]
+    t = w[0] + w[1]*x1 + w[2]*x2 + epsilon.rvs()
+    return t
+
+
+#def calculate_log_likelihood():
+
+
+
 def main():
     # Lista som håller koll på alla punkter som vi studerat och varje gång en 
     # punkt läggs till räknar vi ut w_posterior.
+    '''
     points_added = []
     w_posterior1 = calculate_posterior(0.9, calculate_w_prior())
 
@@ -115,7 +145,11 @@ def main():
     #plot_function_for_each_sample(samples, len(points_added))
 
     print(points_added)
+    '''
+    
 
+    
+ 
     # Uppgift 5 
     '''
     Each time we add a data point for the function f(x) we get an evermore accurate estimation of the
@@ -144,4 +178,6 @@ def main():
     is even more spread out than before. Our model account okay for various levels of noise but there is a
     clear and visible difference when the sigma_squared variable have different values.
     '''
+
+
 main()
