@@ -3,14 +3,6 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
-def calculate_w_prior():
-    w_dimension = 3
-    alpha = 0.2
-    mean = np.zeros(w_dimension)
-    covariance = np.eye(w_dimension) / alpha
-    prior_w = multivariate_normal(mean, covariance)
-    return prior_w
-
 
 def generate_input_space():
     X1 = np.arange(-1, 1.05, 0.05)
@@ -53,20 +45,20 @@ def generate_unseen_data(variance):
 
 
 def calculate_maximum_likelihood_weights(input_matrix_training_data, T_values_training_data):
+    # No need to reshape input_matrix_training_data, it should already be of shape (n, 2)
 
-    input_matrix_training_data = np.array(input_matrix_training_data)
-    input_matrix_training_data = input_matrix_training_data.reshape(-1, 1)
     ones = np.ones((input_matrix_training_data.shape[0], 1))
     phi_matrix = np.concatenate((ones, input_matrix_training_data), axis=1)
     phi_matrix_transposed = phi_matrix.T
-    weights = (np.linalg.inv(phi_matrix_transposed @ phi_matrix) @ phi_matrix_transposed) @ T_values_training_data
+
+    weights = np.linalg.inv(phi_matrix_transposed @ phi_matrix) @ phi_matrix_transposed @ T_values_training_data
     return weights
 
 
 
 def main():
     variance = 0.2
-
+    real_weights = [0, 1.5, -0.8]
     # Uppgift 1:
     '''
     input_matrix = generate_input_space()
@@ -75,6 +67,13 @@ def main():
         t = calculate_t(X[0], X[1], variance)
         T_values.append(t)
     T_values.reverse()
+    '''
+
+
+    input_matrix, T_values = generate_seen_data(variance)
+    weights = calculate_maximum_likelihood_weights(input_matrix, T_values)
+    print(real_weights, weights)
+
     '''
     input_matrix, T_values = generate_seen_data(variance)
 
@@ -96,5 +95,6 @@ def main():
 
 
     plt.show()
+    '''
 
 main()
