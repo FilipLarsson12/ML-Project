@@ -51,6 +51,19 @@ def generate_unseen_data(variance):
     T_values.reverse()
     return input_matrix, T_values
 
+
+def calculate_maximum_likelihood_weights(input_matrix_training_data, T_values_training_data):
+
+    input_matrix_training_data = np.array(input_matrix_training_data)
+    input_matrix_training_data = input_matrix_training_data.reshape(-1, 1)
+    ones = np.ones((input_matrix_training_data.shape[0], 1))
+    phi_matrix = np.concatenate((ones, input_matrix_training_data), axis=1)
+    phi_matrix_transposed = phi_matrix.T
+    weights = (np.linalg.inv(phi_matrix_transposed @ phi_matrix) @ phi_matrix_transposed) @ T_values_training_data
+    return weights
+
+
+
 def main():
     variance = 0.2
 
