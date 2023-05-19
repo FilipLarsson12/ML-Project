@@ -34,6 +34,8 @@ def generate_seen_data(variance):
     return input_matrix, T_values
 
 
+
+
 def generate_unseen_data(variance):
     T_values = []
     X1 = np.arange(-1, 1.05, 0.05)[abs(np.arange(-1, 1.05, 0.05)) > 0.3]
@@ -44,6 +46,8 @@ def generate_unseen_data(variance):
         t = calculate_t(X[0], X[1], variance)
         T_values.append(t)
     return input_matrix, T_values
+
+
 
 def calculate_maximum_likelihood_weights(input_matrix_training_data, T_values_training_data):
     # No need to reshape input_matrix_training_data, it should already be of shape (n, 2)
@@ -68,29 +72,34 @@ def measure_error_of_weights(weights, variance):
         index += 1
     return total_diff / len(unseen_t)
     
+def print_error_of_weights_with_different_variance(variances):
+    
+    for variance in variances:
+        input_matrix, T_values = generate_seen_data(variance)
+        weights = calculate_maximum_likelihood_weights(input_matrix, T_values)
+        total_diff = measure_error_of_weights(weights, variance)
+        print(f"With variance: {variance}. The total error is: {total_diff}.")
+    
+    return
 
 def main():
+
     variance = 0.2
     real_weights = [0, 1.5, -0.8]
+
     # Uppgift 1:
+    
+
+    
+
+
+    print_error_of_weights_with_different_variance([0.2, 0.4, 0.6])
+
+
+
+    
+    #input_matrix, T_values = generate_seen_data(variance)
     '''
-    input_matrix = generate_input_space()
-    T_values = []
-    for X in input_matrix:
-        t = calculate_t(X[0], X[1], variance)
-        T_values.append(t)
-    T_values.reverse()
-    '''
-
-
-    input_matrix, T_values = generate_seen_data(variance)
-    weights = calculate_maximum_likelihood_weights(input_matrix, T_values)
-    total_diff = measure_error_of_weights(weights, variance)
-    print(f"With variance: {variance}. The total error is: {total_diff}.")
-
-    '''
-    input_matrix, T_values = generate_seen_data(variance)
-
     X1 = input_matrix[:, 0]
     X2 = input_matrix[:, 1]
     T_values = np.array(T_values)
@@ -105,10 +114,10 @@ def main():
     ax.set_ylabel('x2')
     ax.set_zlabel('t')
 
-    ax.set_title('3D scatter plot with variance = {}'.format(variance))
-
+    ax.set_title(f'3D scatter plot with variance = {variance}')
 
     plt.show()
     '''
+    
 
 main()
