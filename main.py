@@ -132,8 +132,12 @@ def calculate_t(x1, x2):
 def main():
     # Lista som håller koll på alla punkter som vi studerat och varje gång en 
     # punkt läggs till räknar vi ut w_posterior.
+
+    ''' UPPGIFT 1.1
     w_prior = calculate_w_prior()
     plot_w(w_prior)
+    '''
+    
     '''
     points_added = []
     w_posterior1 = calculate_posterior(0.9, calculate_w_prior())
