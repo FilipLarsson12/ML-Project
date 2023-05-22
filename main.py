@@ -10,9 +10,9 @@ import random
 # Uppgift 1
 
 
-def calculate_w_prior():
+def calculate_w_prior(alpha):
     w_dimension = 2
-    alpha = 0.2
+
     mean = np.zeros(w_dimension)
     covariance = np.eye(w_dimension) / alpha
     prior_w = multivariate_normal(mean, covariance)
@@ -110,7 +110,6 @@ def add_points(point_amount, w_distribution):
 
 # TASK 2
 
-# Uppgift 1
 # x är en vektor med 2 element där varje element ingår i: (-1,1).
 
 def generate_input_space():
@@ -133,11 +132,11 @@ def main():
     # Lista som håller koll på alla punkter som vi studerat och varje gång en 
     # punkt läggs till räknar vi ut w_posterior.
 
-    ''' UPPGIFT 1.1
-    w_prior = calculate_w_prior()
+    # UPPGIFT 1.1
+    w_prior = calculate_w_prior(0.5)
     plot_w(w_prior)
-    '''
     
+
     '''
     points_added = []
     w_posterior1 = calculate_posterior(0.9, calculate_w_prior())
